@@ -7,7 +7,7 @@
   <meta name="description" content="Personal website of Spiros Grouztidis: final-year M.Eng student (ICSD, University of the Aegean) focused on Cybersecurity, Artificial Intelligence, and Secure-by-Design engineering." />
   <meta name="theme-color" content="#00fff0" />
   <meta name="color-scheme" content="dark light" />
-  <link rel="canonical" href="https://spirosgro.github.io/" />
+  <link rel="canonical" href="https://spirosgrouztidis.github.io/" />
   <link rel="manifest" href='data:application/manifest+json,{"name":"Spiros Grouztidis","short_name":"Spiros","theme_color":"#00fff0","background_color":"#04060a","display":"standalone","start_url":"/"}'>
   <style>
     :root{
@@ -254,7 +254,7 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
 
   <div id="overlay" aria-hidden="true"></div>
 
-  <!-- Hidden Buttons inline panel (Recruiter View removed) -->
+  <!-- Hidden Buttons inline panel -->
   <div id="hiddenPanel" role="dialog" aria-modal="false" aria-label="Hidden Controls">
     <div class="row" aria-label="Quick Actions">
       <button class="btn" id="share"><span class="ico">📣</span> Share</button>
@@ -326,7 +326,8 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
     function neighbors(grid, p){ const gx=(p.x/CELL|0), gy=(p.y/CELL|0), res=[]; for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){ const cell = grid.get((gx+dx)+','+(gy+dy)); if(cell) res.push(...cell);} return res; }
 
     function step(ts){
-      if(!running || reduceMotion.matches || scrolling) return;
+      // IMPORTANT: do not stop for prefers-reduced-motion, only for manual/perf scrolling
+      if(!running || scrolling) return;
       if(ts && ts - lastFrame < (1000/targetFPS)) { requestAnimationFrame(step); return; }
       lastFrame = ts || performance.now();
       ctx.clearRect(0,0,W,H);
@@ -357,6 +358,7 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
     if(savedTheme) { if(savedTheme==='light') root.setAttribute('data-theme','light'); }
     else { if(window.matchMedia('(prefers-color-scheme: light)').matches) root.setAttribute('data-theme','light'); }
 
+    // Disable heavy blur on low-end devices
     if((navigator.hardwareConcurrency||4) <= 4 || (navigator.deviceMemory||4) <= 4){
       root.setAttribute('data-noblur','');
       document.documentElement.style.setProperty('--overlay-bg','rgba(0,0,0,.6)');
@@ -371,6 +373,7 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
 
     document.getElementById('printBtn')?.addEventListener('click', ()=> window.print());
 
+    // live time (short format)
     function tick(){ const d=new Date(); document.getElementById('localtime').textContent = `· ${d.toLocaleString(undefined,{hour:'2-digit',minute:'2-digit'})}`; }
     tick(); setInterval(tick, 60000);
 
@@ -392,7 +395,7 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
     const actions = [
       {label:'Open Email', action:()=>location.href='mailto:icsd22034@aegean.gr'},
       {label:'Open LinkedIn', action:()=>window.open('https://www.linkedin.com/in/spirosgrouztidis/','_blank','noopener')},
-      {label:'Download CV', action:()=>window.location.href='./grouztidis-cv.pdf'},
+      {label:'Download CV', action:()=>window.location.href('./grouztidis-cv.pdf')},
       {label:'Copy ATS Summary', action:()=>document.getElementById('copyATS').click()},
       {label:'Copy Skills', action:()=>document.getElementById('copySkills').click()},
       {label:'Scroll to About', action:()=>document.getElementById('about').scrollIntoView({behavior:'smooth'})},
@@ -432,7 +435,7 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
       t('Command palette renders', ()=>{ if(!document.getElementById('miniList').children.length) throw new Error('no items'); });
       t('Theme buttons exist', ()=>{ if(!document.getElementById('cvLightBtn')||!document.getElementById('cvDarkBtn')) throw new Error('missing'); });
       t('Overlay present', ()=>{ const ov=getComputedStyle(document.getElementById('overlay')); if(!ov) throw new Error('no overlay'); });
-      console.group('%cSelf‑tests','color:#00fff0'); tests.forEach(x=> console[x.ok?'log':'error'](x.ok?'✓':'✗', x.name, x.err||'')); console.groupEnd();
+      console.group('%cSelf-tests','color:#00fff0'); tests.forEach(x=> console[x.ok?'log':'error'](x.ok?'✓':'✗', x.name, x.err||'')); console.groupEnd();
     })();
   </script>
 </body>
