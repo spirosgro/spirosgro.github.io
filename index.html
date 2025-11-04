@@ -4,29 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Spiros Grouztidis — M.Eng | Cybersecurity & AI</title>
-  <meta name="description" content="Personal website of Spiros Grouztidis: final‑year M.Eng student (ICSD, University of the Aegean) focused on Cybersecurity, Artificial Intelligence, and Secure‑by‑Design engineering." />
+  <meta name="description" content="Personal website of Spiros Grouztidis: final-year M.Eng student (ICSD, University of the Aegean) focused on Cybersecurity, Artificial Intelligence, and Secure-by-Design engineering." />
   <meta name="theme-color" content="#00fff0" />
   <meta name="color-scheme" content="dark light" />
-  <link rel="canonical" href="https://spirosgrouztidis.github.io/" />
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Spiros Grouztidis — Cybersecurity & AI" />
-  <meta property="og:description" content="Final‑year M.Eng (ICSD) | Cybersecurity • AI • Secure‑by‑Design" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://spirosgrouztidis.github.io/" />
-  <meta property="og:image" content="https://spirosgrouztidis.github.io/og-image.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Spiros Grouztidis — Cybersecurity & AI" />
-  <meta name="twitter:image" content="https://spirosgrouztidis.github.io/og-image.png" />
-  <!-- Tiny inline web manifest (PWA-lite) -->
+  <link rel="canonical" href="https://spirosgro.github.io/" />
   <link rel="manifest" href='data:application/manifest+json,{"name":"Spiros Grouztidis","short_name":"Spiros","theme_color":"#00fff0","background_color":"#04060a","display":"standalone","start_url":"/"}'>
-
   <style>
     :root{
       --bg:#04060a; --panel:#0a0f1e; --ink:#e8f3ff; --muted:#97a8c1; --accent:#00fff0; --accent-2:#9b5cff; --ring:#00fff0;
       --r:18px; --space:18px; --ani:.15s; --soft: cubic-bezier(.2,.8,.2,1);
       --card-bg: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      --overlay-blur: 2px; --overlay-bg: rgba(0,0,0,.45);
     }
-    /* manual theme toggle */
     html[data-theme="light"]{ --bg:#f8fbff; --panel:#eef3ff; --ink:#0a1220; --muted:#4b5b74; --accent:#0aa1ff; --accent-2:#6f4bff; --ring:#0aa1ff; }
 
     *{box-sizing:border-box}
@@ -46,11 +35,17 @@
     .title{font-size:clamp(32px,6vw,64px);line-height:1.1;margin:14px 0 10px;letter-spacing:.02em;background:linear-gradient(90deg,#fff, color-mix(in oklab,#fff 65%, var(--accent)), color-mix(in oklab,#fff 65%, var(--accent-2)), #fff);-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
     @keyframes shine{0%{background-position:0%}100%{background-position:200%}}
     .subtitle{color:var(--muted);font-size:clamp(15px,2.2vw,18px)}
+
     .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--r);border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);background:linear-gradient(180deg,color-mix(in oklab, var(--accent) 12%, transparent), color-mix(in oklab, var(--accent) 5%, transparent));color:var(--ink);box-shadow:0 10px 30px color-mix(in oklab,var(--accent) 12%, transparent);cursor:pointer;transition:transform var(--ani) var(--soft),box-shadow var(--ani) var(--soft);font-weight:600}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px color-mix(in oklab,var(--accent) 22%, transparent)}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--r);border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);background:linear-gradient(180deg,color-mix(in oklab, var(--accent) 12%, transparent), color-mix(in oklab, var(--accent) 5%, transparent));color:var(--ink);box-shadow:0 10px 30px color-mix(in oklab,var(--accent) 12%, transparent);cursor:pointer;transition:transform var(--ani) var(--soft),box-shadow var(--ani) var(--soft);font-weight:600; will-change: transform}
+    .btn:hover{transform:translateY(-2px)}
     .btn.secondary{border-color: color-mix(in oklab,var(--accent-2) 50%, transparent);background: linear-gradient(180deg, color-mix(in oklab,var(--accent-2) 18%, transparent), color-mix(in oklab,var(--accent-2) 6%, transparent))}
     .btn.ghost{border-color:rgba(255,255,255,.2);background:transparent}
+    .btn .ico{display:inline-block;}
+    @keyframes spin360{to{transform:rotate(360deg)}}
+    .btn:hover .ico{animation:spin360 .8s var(--soft) 1}
+    .btn.spin .ico{animation:spin360 .6s var(--soft) 1}
+
     .chip{padding:6px 10px;border:1px dashed rgba(255,255,255,.18);border-radius:999px;color:#c8d6ff;font-size:13px}
 
     main section{margin:56px 0}
@@ -65,21 +60,34 @@
 
     footer{margin:64px 0 40px;color:var(--muted);font-size:14px;text-align:center}
 
-    /* Skip link */
     .skip{position:absolute;left:-9999px;top:auto}
     .skip:focus{left:12px;top:12px;background:var(--panel);color:var(--accent);padding:8px 12px;border-radius:10px;z-index:100}
 
-    /* Print-friendly resume */
+    /* Overlay (blur tuned) */
+    #overlay{position:fixed;inset:0;background:var(--overlay-bg);backdrop-filter: saturate(120%) blur(var(--overlay-blur));-webkit-backdrop-filter:saturate(120%) blur(var(--overlay-blur));z-index:40;display:none}
+    /* Disable/soften blur on touch/low-end or reduced transparency */
+    @media (pointer:coarse){
+      #overlay{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(0,0,0,.6)}
+      .scanline{background:repeating-linear-gradient(180deg,rgba(0,255,240,0),rgba(0,255,240,0) 31px,rgba(0,255,240,.025) 32px)}
+    }
+    @media (prefers-reduced-transparency: reduce){
+      #overlay{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(0,0,0,.6)}
+    }
+    html[data-noblur] #overlay{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(0,0,0,.6)}
+
     @media print{
       .scanline,#fx,header .ribbon{display:none!important}
       body{background:#fff;color:#000}
       a{color:#000;text-decoration:underline}
       .card{box-shadow:none;border-color:#ccc}
+      body{ margin:0; }
+      .wrap{ max-width:unset; padding:16mm; }
+      header{ padding:0 0 8mm; }
+      .title{ color:#000 !important; background:none !important; }
+      .cta,.fab,#hiddenPanel,.scanline,#fx{ display:none !important; }
     }
+    @media (prefers-reduced-motion: reduce){.title{animation:none} .btn:hover .ico,.btn.spin .ico{animation:none}}
 
-    @media (prefers-reduced-motion: reduce){.title{animation:none}}
-
-    /* Hidden Buttons panel */
     #hiddenPanel{position:fixed;right:22px;bottom:22px;width:min(420px,92vw);display:none;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.14);border-radius:16px;box-shadow:0 30px 120px rgba(0,0,0,.6);padding:12px;z-index:50}
     #hiddenPanel .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
     #hiddenPanel .seg{display:inline-flex;border:1px solid rgba(255,255,255,.2);border-radius:10px;overflow:hidden}
@@ -91,10 +99,24 @@
     #hiddenPanel .mini li{padding:8px;border-radius:8px}
     #hiddenPanel .mini li:hover{background:color-mix(in oklab, var(--accent) 10%, transparent)}
 
-    /* CTF easter egg */
     [data-ctf] .badge{background:linear-gradient(90deg,#00ff88,#00fff0)!important}
     [data-ctf] .ribbon{background:linear-gradient(90deg,#00ff88,#9b5cff)!important}
     [data-ctf] .card:hover{transform:translateY(-2px) scale(1.015)}
+
+    @media (pointer:coarse){ .scanline{ display:none !important; } }
+    @media (max-width: 420px){
+      .wrap{ padding:16px; }
+      .cta .btn{ padding:14px 16px; min-height:48px; }
+      .btn{ font-size:15px; }
+      header{ padding:56px 0 18px; }
+      .ribbon{ right:12px; top:12px; font-size:11px; padding:5px 8px; }
+      .chip{ padding:7px 12px; }
+      .grid{ gap:12px; }
+    }
+    @supports (padding: max(0px)){
+      .fab{ position:fixed; right:max(22px, env(safe-area-inset-right)); bottom:max(22px, env(safe-area-inset-bottom)); }
+      #hiddenPanel{ right:max(22px, env(safe-area-inset-right)); bottom:max(22px, env(safe-area-inset-bottom)); }
+    }
   </style>
 </head>
 <body>
@@ -105,17 +127,17 @@
   <header>
     <div class="wrap">
       <div class="ribbon" title="Built with care">ENGINEERED · SECURE · FAST</div>
-      <span class="badge">Cybersecurity • AI • Secure‑by‑Design</span>
+      <span class="badge">Cybersecurity • AI • Secure-by-Design</span>
       <h1 class="title">Spiros Grouztidis</h1>
-      <p class="subtitle">Final‑year M.Eng student — Information & Communication Systems Engineering (ICSD), University of the Aegean. Passionate about security engineering, AI, and building resilient, privacy‑respecting technology. <span id="localtime" class="muted"></span></p>
+      <p class="subtitle">Final-year M.Eng student — Information & Communication Systems Engineering (ICSD), University of the Aegean. Passionate about security engineering, AI, and building resilient, privacy-respecting technology. <span id="localtime" class="muted"></span></p>
       <div class="cta">
-        <a class="btn" href="mailto:icsd22034@aegean.gr">📧 Email</a>
-        <a class="btn secondary" href="https://www.linkedin.com/in/spirosgrouztidis/" target="_blank" rel="noopener">🔗 LinkedIn</a>
-        <a class="btn" href="./grouztidis-cv.pdf" download>📄 Download CV (PDF)</a>
-        <button class="btn" id="recruiterBtn" aria-expanded="false" aria-controls="recruiterPanel">🧠 Recruiter View</button>
-        <button class="btn ghost" id="themeToggle" title="Toggle theme">🌓 Theme</button>
-        <button class="btn ghost" id="printBtn" title="Print / Save PDF">🖨️ Print</button>
-        <button class="btn ghost" id="hiddenBtn" aria-expanded="false" aria-controls="hiddenPanel">🧩 Hidden Buttons</button>
+        <a class="btn" href="mailto:icsd22034@aegean.gr"><span class="ico">📧</span> Email</a>
+        <a class="btn secondary" href="https://www.linkedin.com/in/spirosgrouztidis/" target="_blank" rel="noopener noreferrer"><span class="ico">🔗</span> LinkedIn</a>
+        <a class="btn" href="./grouztidis-cv.pdf" download><span class="ico">📄</span> Download CV (PDF)</a>
+        <button class="btn" id="cvLightBtn" title="Use Light CV Theme"><span class="ico">🌞</span> CV Light</button>
+        <button class="btn ghost" id="cvDarkBtn" title="Use Dark CV Theme"><span class="ico">🌙</span> CV Dark</button>
+        <button class="btn ghost" id="printBtn" title="Print / Save PDF"><span class="ico">🖨️</span> Print</button>
+        <button class="btn ghost" id="hiddenBtn" aria-expanded="false" aria-controls="hiddenPanel"><span class="ico">🧩</span> Hidden Buttons</button>
       </div>
     </div>
   </header>
@@ -125,16 +147,15 @@
       <section id="about">
         <h3 class="section-title">About</h3>
         <div class="card">
-          <p>Final‑year M.Eng student at the <strong>Department of Information & Communication Systems Engineering (ICSD)</strong>, University of the Aegean. I design and ship <strong>secure‑by‑default</strong> software with a strong focus on <strong>Cybersecurity</strong> and <strong>Artificial Intelligence</strong>. I’m fascinated by <em>how systems fail</em> (and how to make them fail‑safe), from threat modeling and reverse engineering to AI safety and privacy.</p>
-          <p>I currently balance a <strong>full final‑year workload</strong> at ICSD with hands‑on work: small security gigs, research‑driven prototypes, and <strong>private/open‑source projects I contribute to pro‑bono</strong> this season. My focus is building robust systems, documenting clearly, and keeping security practical for dev teams.</p>
+          <p>Final-year M.Eng student at the <strong>Department of Information & Communication Systems Engineering (ICSD)</strong>, University of the Aegean. I design and ship <strong>secure-by-default</strong> software with a strong focus on <strong>Cybersecurity</strong> and <strong>Artificial Intelligence</strong>. I’m fascinated by <em>how systems fail</em> (and how to make them fail-safe), from threat modeling and reverse engineering to AI safety and privacy.</p>
+          <p>I currently balance a <strong>full final-year workload</strong> at ICSD with hands-on work: small security gigs, research-driven prototypes, and <strong>private/open-source projects I contribute to pro-bono</strong> this season. My focus is building robust systems, documenting clearly, and keeping security practical for dev teams.</p>
           <ul>
-            <li><strong>What I’m looking for:</strong> Security/AI‑Security internship or junior role (EU/Remote).</li>
+            <li><strong>What I’m looking for:</strong> Security/AI-Security internship or junior role (EU/Remote).</li>
             <li><strong>Strengths:</strong> clear writing, reproducible labs, defensive mindset, fast learning.</li>
             <li><strong>Values:</strong> privacy, transparency, and impact over buzzwords.</li>
           </ul>
           <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px">
-            <button class="btn" id="openRecruiterFromAbout">🧠 Recruiter Snapshot</button>
-            <button class="btn ghost" id="copySkills">📎 Copy skills</button>
+            <button class="btn ghost" id="copySkills"><span class="ico">📎</span> Copy skills</button>
           </div>
           <div class="skills" aria-label="tags">
             <span class="chip">#CyberSecurity</span>
@@ -142,7 +163,7 @@
             <span class="chip">#SecureByDesign</span>
             <span class="chip">#PromptEngineering</span>
             <span class="chip">#ReverseEngineering</span>
-            <span class="chip">#AI‑Security</span>
+            <span class="chip">#AI-Security</span>
           </div>
         </div>
       </section>
@@ -177,11 +198,11 @@
           <div class="card">
             <h4>Core Interests</h4>
             <ul>
-              <li>AI‑driven cybersecurity and threat detection</li>
+              <li>AI-driven cybersecurity and threat detection</li>
               <li>Ethical & explainable AI (XAI)</li>
               <li>Large Language Model safety and prompt optimization</li>
               <li>Machine learning pipelines for anomaly detection</li>
-              <li>Human‑AI collaboration and secure deployment</li>
+              <li>Human-AI collaboration and secure deployment</li>
             </ul>
           </div>
           <div class="card">
@@ -207,21 +228,21 @@
       <section id="highlights">
         <h3 class="section-title">Highlights</h3>
         <div class="grid cols-3">
-          <div class="card"><strong>Professional Interests</strong><p>Cyber defense, secure system design, and AI‑assisted automation.</p></div>
-          <div class="card"><strong>Personal Interests</strong><p>Digital innovation, ethical hacking, continuous learning, and open‑source contribution.</p></div>
+          <div class="card"><strong>Professional Interests</strong><p>Cyber defense, secure system design, and AI-assisted automation.</p></div>
+          <div class="card"><strong>Personal Interests</strong><p>Digital innovation, ethical hacking, continuous learning, and open-source contribution.</p></div>
           <div class="card"><strong>Location</strong><p>Aliartos, Boeotia · Greece</p></div>
         </div>
       </section>
 
       <section id="ats">
-        <h3 class="section-title">ATS‑Friendly Summary</h3>
+        <h3 class="section-title">ATS-Friendly Summary</h3>
         <div class="card">
-          <pre id="atsText" style="white-space:pre-wrap;margin:0">SPIROS GROUZTIDIS — Final‑year M.Eng (ICSD, University of the Aegean)
+          <pre id="atsText" style="white-space:pre-wrap;margin:0">SPIROS GROUZTIDIS — Final-year M.Eng (ICSD, University of the Aegean)
 Cybersecurity | AI Security | Secure Software
 Skills: Python, Java, C/C++, JS, SQL, Bash, Docker | Threat Modeling, Reverse Engineering, Network Analysis, Prompt Security
 Highlights: CyberSecurity Challenge Greece (2025), IEEE Xtreme distinction (2024)
 Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
-          <div style="margin-top:10px"><button class="btn" id="copyATS">📎 Copy for ATS</button></div>
+          <div style="margin-top:10px"><button class="btn" id="copyATS"><span class="ico">📎</span> Copy for ATS</button></div>
         </div>
       </section>
     </div>
@@ -231,27 +252,12 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
     <div class="wrap">© <span id="year"></span> Spiros Grouztidis · <a href="mailto:icsd22034@aegean.gr">icsd22034@aegean.gr</a></div>
   </footer>
 
-  <!-- Recruiter View (inline panel) -->
-  <div class="fab" style="right:22px; bottom:22px">
-    <div class="panel" id="recruiterPanel" role="dialog" aria-modal="false" aria-label="Recruiter View" style="display:none">
-      <div class="row" style="margin-bottom:10px"><strong class="muted">Recruiter Snapshot</strong></div>
-      <div class="card" style="margin-bottom:10px">
-        <p><strong>Target Roles:</strong> Security Engineer (Junior), AI Security Intern, Software Engineer (Secure Systems)</p>
-        <p><strong>Availability:</strong> Open for internships and junior roles · Remote/Hybrid · Greece/EU</p>
-        <p><strong>Skills:</strong> Threat Modeling, RE, Network Analysis, Prompt Security, Python/Java</p>
-      </div>
-      <div class="row">
-        <button class="btn" id="copySummary">📝 Copy 3‑line Summary</button>
-        <a class="btn secondary" href="mailto:icsd22034@aegean.gr?subject=Spiros%20Grouztidis%20—%20Opportunity&body=Hi%20Spiros,%20We%20saw%20your%20portfolio%20and%20would%20like%20to%20talk...">📧 Email Template</a>
-        <a class="btn" href="./grouztidis-cv.pdf" download>📄 Download CV</a>
-      </div>
-    </div>
-  </div>
+  <div id="overlay" aria-hidden="true"></div>
 
-  <!-- Hidden Buttons inline panel -->
+  <!-- Hidden Buttons inline panel (Recruiter View removed) -->
   <div id="hiddenPanel" role="dialog" aria-modal="false" aria-label="Hidden Controls">
     <div class="row" aria-label="Quick Actions">
-      <button class="btn" id="share">📣 Share</button>
+      <button class="btn" id="share"><span class="ico">📣</span> Share</button>
       <div class="seg" role="group" aria-label="Performance">
         <button id="perfLow" aria-pressed="false">Low</button>
         <button id="perfAuto" aria-pressed="true">Auto</button>
@@ -265,13 +271,14 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
     </div>
   </div>
 
-  <!-- Structured data -->
+  <div id="toast" aria-live="polite" style="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));background:rgba(0,0,0,.75);color:#fff;padding:10px 14px;border-radius:12px;display:none;z-index:60"></div>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Spiros Grouztidis",
-    "jobTitle": "Final‑year M.Eng Student in Information & Communication Systems Engineering",
+    "jobTitle": "Final-year M.Eng Student in Information & Communication Systems Engineering",
     "alumniOf": {"@type":"CollegeOrUniversity","name":"University of the Aegean"},
     "knowsAbout": ["Cybersecurity","Secure Software Development","Reverse Engineering","AI Security","Prompt Engineering"],
     "address": {"@type":"PostalAddress","addressLocality":"Aliartos","addressRegion":"Boeotia","addressCountry":"GR"},
@@ -282,18 +289,21 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
   </script>
 
   <script>
-    // DPR-aware canvas + visibility pause
+    // Canvas & perf controls (mobile-optimized)
     const canvas = document.getElementById('fx');
     const ctx = canvas.getContext('2d');
     const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     let W, H, nodes = [], centers = [], mouse = {x: -9999, y: -9999}, perf = 'auto', scale = 1, running = true;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const isMobile = matchMedia('(pointer:coarse)').matches;
+    const lowCPU = (navigator.hardwareConcurrency||4) <= 4;
+    const lowRAM = (navigator.deviceMemory||4) <= 4;
+    let targetFPS = isMobile ? 30 : 45;
+    let lastFrame = 0;
+    let scrolling = false;
 
-    function computeScale(){
-      if(perf==='low') return .6; if(perf==='high') return 1.3;
-      const area = innerWidth*innerHeight; const dpr = Math.min(devicePixelRatio||1, 2);
-      return Math.min(1.2, Math.max(.75, (area/700000) * (1/dpr)));
-    }
+    function shouldDisableFx(){ return reduceMotion.matches || (isMobile && (lowCPU || lowRAM)); }
+    function computeScale(){ if(perf==='low') return .6; if(perf==='high') return 1.3; const area = innerWidth*innerHeight; const dpr = Math.min(devicePixelRatio||1, 2); return Math.min(1.2, Math.max(.75, (area/700000) * (1/dpr))); }
 
     function reset(){
       canvas.width  = Math.floor(innerWidth  * DPR);
@@ -301,110 +311,88 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
       canvas.style.width  = innerWidth + 'px';
       canvas.style.height = innerHeight + 'px';
       ctx.setTransform(DPR,0,0,DPR,0,0);
-      W = innerWidth; H = innerHeight; scale = computeScale();
+      W = innerWidth; H = innerHeight; 
+      const disabled = shouldDisableFx();
+      scale = disabled ? 0.55 : computeScale();
       nodes = []; centers = [];
-      const centerCount = Math.max(3, Math.min(10, Math.floor((W*H)/250000 * scale)));
+      const centerCount = disabled ? 3 : Math.max(3, Math.min(10, Math.floor((W*H)/250000 * scale)));
       for(let i=0;i<centerCount;i++) centers.push({x: Math.random()*W, y: Math.random()*H*0.6 + H*0.2, vx:0, vy:0});
-      const perCenter = Math.max(10, Math.min(28, Math.floor((W+H)/120 * scale)));
+      const perCenter = disabled ? 8 : Math.max(10, Math.min(28, Math.floor((W+H)/120 * scale)));
       for(const c0 of centers){ for(let k=0;k<perCenter;k++){ const r = 30 + Math.random()*120; nodes.push({cx:c0.x, cy:c0.y, r, a:Math.random()*Math.PI*2, w:(0.001+Math.random()*0.003)*(Math.random()<0.5?-1:1), e:0.6+Math.random()*0.25, x:0, y:0}); } }
     }
 
-    // Spatial hashing for connections
     const CELL = 120;
-    function buildGrid(points){
-      const grid = new Map();
-      for (const p of points){
-        const gx = (p.x/CELL|0), gy = (p.y/CELL|0); const key = gx+','+gy;
-        (grid.get(key) || grid.set(key,[]).get(key)).push(p);
-      }
-      return grid;
-    }
-    function neighbors(grid, p){
-      const gx=(p.x/CELL|0), gy=(p.y/CELL|0), res=[];
-      for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){
-        const cell = grid.get((gx+dx)+','+(gy+dy)); if(cell) res.push(...cell);
-      }
-      return res;
-    }
+    function buildGrid(points){ const grid = new Map(); for (const p of points){ const gx = (p.x/CELL|0), gy = (p.y/CELL|0); const key = gx+','+gy; (grid.get(key) || grid.set(key,[]).get(key)).push(p);} return grid; }
+    function neighbors(grid, p){ const gx=(p.x/CELL|0), gy=(p.y/CELL|0), res=[]; for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){ const cell = grid.get((gx+dx)+','+(gy+dy)); if(cell) res.push(...cell);} return res; }
 
-    function step(){
-      if(!running || reduceMotion.matches) return;
+    function step(ts){
+      if(!running || reduceMotion.matches || scrolling) return;
+      if(ts && ts - lastFrame < (1000/targetFPS)) { requestAnimationFrame(step); return; }
+      lastFrame = ts || performance.now();
       ctx.clearRect(0,0,W,H);
       const g = ctx.createRadialGradient(W*0.5, H*0.25, 0, W*0.5, H*0.25, Math.max(W,H));
       g.addColorStop(0, 'rgba(0,255,240,0.06)'); g.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
 
-      for(const c0 of centers){
-        const dx = mouse.x - c0.x, dy = mouse.y - c0.y; const dist = Math.hypot(dx, dy) || 1; const influence = Math.min(1, 120/dist);
-        c0.vx += dx * 0.0004 * influence; c0.vy += dy * 0.0004 * influence; c0.vx *= 0.96; c0.vy *= 0.96; c0.x += c0.vx; c0.y += c0.vy;
-      }
-      for(const n of nodes){
-        let nearest = centers[0], nd = 1e9; for(const c0 of centers){ const d = (n.cx-c0.x)**2 + (n.cy-c0.y)**2; if(d < nd){ nd = d; nearest = c0; } }
-        n.cx += (nearest.x - n.cx) * 0.04; n.cy += (nearest.y - n.cy) * 0.04;
-        const mdx = mouse.x - n.cx, mdy = mouse.y - n.cy; const mDist = Math.hypot(mdx, mdy) || 1; const boost = 1 + Math.min(1, 150/mDist) * 0.9;
-        n.a += n.w * boost; n.x = n.cx + Math.cos(n.a) * n.r; n.y = n.cy + Math.sin(n.a) * n.r * n.e;
-      }
+      for(const c0 of centers){ const dx = mouse.x - c0.x, dy = mouse.y - c0.y; const dist = Math.hypot(dx, dy) || 1; const influence = Math.min(1, 120/dist); c0.vx += dx * 0.0004 * influence; c0.vy += dy * 0.0004 * influence; c0.vx *= 0.96; c0.vy *= 0.96; c0.x += c0.vx; c0.y += c0.vy; }
+      for(const n of nodes){ let nearest = centers[0], nd = 1e9; for(const c0 of centers){ const d = (n.cx-c0.x)**2 + (n.cy-c0.y)**2; if(d < nd){ nd = d; nearest = c0; } } n.cx += (nearest.x - n.cx) * 0.04; n.cy += (nearest.y - n.cy) * 0.04; const mdx = mouse.x - n.cx, mdy = mouse.y - n.cy; const mDist = Math.hypot(mdx, mdy) || 1; const boost = 1 + Math.min(1, 150/mDist) * 0.9; n.a += n.w * boost; n.x = n.cx + Math.cos(n.a) * n.r; n.y = n.cy + Math.sin(n.a) * n.r * n.e; }
 
       const grid = buildGrid(nodes);
       ctx.lineWidth = 1;
-      for(const a of nodes){
-        ctx.beginPath(); ctx.arc(a.x, a.y, 1.6, 0, Math.PI*2); ctx.fillStyle = 'rgba(0,255,240,0.85)'; ctx.fill();
-        const neigh = neighbors(grid, a);
-        let count = 0;
-        for(const b of neigh){ if(a===b) continue; const dx=a.x-b.x, dy=a.y-b.y; const d=Math.hypot(dx,dy); if(d<100){ ctx.strokeStyle = `rgba(0,255,240,${(1 - d/100) * 0.18})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); if(++count>10) break; } }
-      }
+      for(const a of nodes){ ctx.beginPath(); ctx.arc(a.x, a.y, 1.6, 0, Math.PI*2); ctx.fillStyle = 'rgba(0,255,240,0.85)'; ctx.fill(); const neigh = neighbors(grid, a); let count = 0; for(const b of neigh){ if(a===b) continue; const dx=a.x-b.x, dy=a.y-b.y; const d=Math.hypot(dx,dy); if(d<100){ ctx.strokeStyle = `rgba(0,255,240,${(1 - d/100) * 0.18})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); if(++count>10) break; } } }
       requestAnimationFrame(step);
     }
 
-    // Interactions & lifecycle
     function onMove(e){ if(e.touches && e.touches[0]){ mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } else { mouse.x = e.clientX; mouse.y = e.clientY; } }
     window.addEventListener('mousemove', onMove, {passive:true});
     window.addEventListener('touchmove', onMove, {passive:true});
     window.addEventListener('mouseleave', ()=>{ mouse.x = mouse.y = -9999; });
     window.addEventListener('resize', reset);
     document.addEventListener('visibilitychange', ()=>{ running = !document.hidden; if(running) requestAnimationFrame(step); });
+    window.addEventListener('scroll', () => { scrolling = true; clearTimeout(window.__scrollT); window.__scrollT = setTimeout(()=> scrolling=false, 120); }, {passive:true});
 
-    // Theme toggle / Hidden Buttons / Print / Live time
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', ()=>{
-      const cur = document.documentElement.getAttribute('data-theme');
-      document.documentElement.setAttribute('data-theme', cur==='light' ? '' : 'light');
-    });
-    document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+    // THEME via CV buttons with rotation
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme) { if(savedTheme==='light') root.setAttribute('data-theme','light'); }
+    else { if(window.matchMedia('(prefers-color-scheme: light)').matches) root.setAttribute('data-theme','light'); }
 
-    // live time (Europe/Athens assumed)
-    function tick(){ const d=new Date(); document.getElementById('localtime').textContent = `· Local time: ${d.toLocaleString()}`; }
+    if((navigator.hardwareConcurrency||4) <= 4 || (navigator.deviceMemory||4) <= 4){
+      root.setAttribute('data-noblur','');
+      document.documentElement.style.setProperty('--overlay-bg','rgba(0,0,0,.6)');
+    }
+
+    function spinOnce(btn){ btn.classList.add('spin'); btn.addEventListener('animationend', ()=> btn.classList.remove('spin'), {once:true}); }
+
+    const cvLightBtn = document.getElementById('cvLightBtn');
+    const cvDarkBtn  = document.getElementById('cvDarkBtn');
+    cvLightBtn?.addEventListener('click', ()=>{ root.setAttribute('data-theme','light'); localStorage.setItem('theme','light'); spinOnce(cvLightBtn); });
+    cvDarkBtn?.addEventListener('click', ()=>{ root.removeAttribute('data-theme'); localStorage.setItem('theme','dark'); spinOnce(cvDarkBtn); });
+
+    document.getElementById('printBtn')?.addEventListener('click', ()=> window.print());
+
+    function tick(){ const d=new Date(); document.getElementById('localtime').textContent = `· ${d.toLocaleString(undefined,{hour:'2-digit',minute:'2-digit'})}`; }
     tick(); setInterval(tick, 60000);
 
-    // Hidden Buttons panel logic
     const hiddenBtn = document.getElementById('hiddenBtn');
     const hiddenPanel = document.getElementById('hiddenPanel');
-    let hbOpen = false;
-    function toggleHidden(){ hbOpen = !hbOpen; hiddenPanel.style.display = hbOpen ? 'block' : 'none'; hiddenBtn?.setAttribute('aria-expanded', String(hbOpen)); }
-    hiddenBtn?.addEventListener('click', toggleHidden);
-    window.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); if(!hbOpen) toggleHidden(); document.getElementById('miniInput').focus(); } });
+    const overlay = document.getElementById('overlay');
 
-    // Performance segmented control
-    const perfBtns = { low: document.getElementById('perfLow'), auto: document.getElementById('perfAuto'), high: document.getElementById('perfHigh') };
-    function setPerf(mode){ perf = mode; Object.entries(perfBtns).forEach(([k,btn])=> btn?.setAttribute('aria-pressed', String(k===mode))); reset(); }
-    perfBtns.low?.addEventListener('click', ()=> setPerf('low'));
-    perfBtns.auto?.addEventListener('click', ()=> setPerf('auto'));
-    perfBtns.high?.addEventListener('click', ()=> setPerf('high'));
+    const focusableSel = 'a,button,[tabindex]:not([tabindex="-1"])';
+    function openDialog(el, btn){ overlay.style.display = 'block'; el.style.display = 'block'; document.body.style.overflow = 'hidden'; el.setAttribute('aria-modal','true'); el.dataset.trigger = btn?.id || ''; const f = el.querySelector(focusableSel); f?.focus(); function trap(e){ if(e.key !== 'Tab') return; const items = [...el.querySelectorAll(focusableSel)].filter(x=>!x.disabled && x.offsetParent!==null); if(!items.length) return; const first = items[0], last = items[items.length-1]; if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); } } el.__trap = trap; el.addEventListener('keydown', trap); }
+    function closeDialog(el){ overlay.style.display = 'none'; el.style.display = 'none'; document.body.style.overflow = ''; el.removeAttribute('aria-modal'); el.removeEventListener('keydown', el.__trap); const trigger = el.dataset.trigger && document.getElementById(el.dataset.trigger); trigger?.focus(); }
 
-    // Share
-    document.getElementById('share')?.addEventListener('click', async ()=>{
-      const data = { title: 'Spiros Grouztidis — Cybersecurity & AI', text: 'Check out my portfolio', url: location.href };
-      if(navigator.share){ try{ await navigator.share(data); }catch{} } else { try{ await navigator.clipboard.writeText(location.href); alert('Link copied to clipboard!'); }catch{} }
-    });
+    overlay.addEventListener('click', ()=> { if(getComputedStyle(hiddenPanel).display==='block') closeDialog(hiddenPanel); });
+    window.addEventListener('keydown', (e)=> { if(e.key==='Escape'){ if(getComputedStyle(hiddenPanel).display==='block') closeDialog(hiddenPanel); } });
 
-    // Mini command palette
+    function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(t.__t); t.__t=setTimeout(()=> t.style.display='none', 1600); }
+
     const miniInput = document.getElementById('miniInput');
     const miniList = document.getElementById('miniList');
     const actions = [
       {label:'Open Email', action:()=>location.href='mailto:icsd22034@aegean.gr'},
       {label:'Open LinkedIn', action:()=>window.open('https://www.linkedin.com/in/spirosgrouztidis/','_blank','noopener')},
       {label:'Download CV', action:()=>window.location.href='./grouztidis-cv.pdf'},
-      {label:'Open Recruiter View', action:()=>document.getElementById('recruiterBtn').click()},
       {label:'Copy ATS Summary', action:()=>document.getElementById('copyATS').click()},
       {label:'Copy Skills', action:()=>document.getElementById('copySkills').click()},
       {label:'Scroll to About', action:()=>document.getElementById('about').scrollIntoView({behavior:'smooth'})},
@@ -419,45 +407,31 @@ Looking for: Security Engineer (Junior) / AI Security Intern — EU/Remote</pre>
     miniInput?.addEventListener('input', (e)=> filterMini(e.target.value));
     renderMini(actions);
 
-    // Recruiter View
-    const rBtn = document.getElementById('recruiterBtn');
-    const rPanel = document.getElementById('recruiterPanel');
-    function toggleRecruiter(){ const open = rPanel.style.display==='block'; rPanel.style.display = open ? 'none' : 'block'; rBtn.setAttribute('aria-expanded', String(!open)); navigator.vibrate?.(12); }
-    rBtn.addEventListener('click', toggleRecruiter);
-    document.getElementById('openRecruiterFromAbout')?.addEventListener('click', toggleRecruiter);
-    window.addEventListener('keydown', e=>{ if(e.key.toLowerCase()==='r' && (e.ctrlKey||e.metaKey)) { e.preventDefault(); toggleRecruiter(); } });
-    document.getElementById('copySummary').addEventListener('click', async ()=>{
-      const text = `Spiros Grouztidis — Final‑year M.Eng (ICSD). Focus: Cybersecurity, AI security, secure systems. Recent: CyberSecurity Challenge Greece; IEEE Xtreme distinction. Open to internships/junior roles (EU/Remote).`;
-      try{ await navigator.clipboard.writeText(text); alert('Summary copied!'); }catch{}
-    });
+    function toggleHidden(){ const open = hiddenPanel.style.display==='block'; open ? closeDialog(hiddenPanel) : (openDialog(hiddenPanel, hiddenBtn), document.getElementById('miniInput').focus()); hiddenBtn?.setAttribute('aria-expanded', String(!open)); }
+    hiddenBtn?.addEventListener('click', toggleHidden);
+    window.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); if(hiddenPanel.style.display!=='block'){ openDialog(hiddenPanel, hiddenBtn); document.getElementById('miniInput').focus(); } else { closeDialog(hiddenPanel); } }});
 
-    // ATS copy
-    document.getElementById('copyATS').addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(document.getElementById('atsText').innerText); alert('ATS summary copied!'); }catch{}
-    });
-    // Copy skills
-    document.getElementById('copySkills').addEventListener('click', async ()=>{
-      const chips=[...document.querySelectorAll('#about .skills .chip')].map(x=>x.textContent.replace(/^#/,'')).join(', ');
-      try{ await navigator.clipboard.writeText(chips); alert('Skills copied!'); }catch{}
-    });
-    // Konami code → CTF mode
-    (function(){
-      const seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-      let i=0; window.addEventListener('keydown',e=>{ const k=e.key; i = (k===seq[i]) ? i+1 : (k===seq[0]?1:0); if(i===seq.length){ i=0; document.documentElement.toggleAttribute('data-ctf'); alert('CTF mode toggled!'); }});
-    })();
+    const perfBtns = { low: document.getElementById('perfLow'), auto: document.getElementById('perfAuto'), high: document.getElementById('perfHigh') };
+    function setPerf(mode){ perf = mode; Object.entries(perfBtns).forEach(([k,btn])=> btn?.setAttribute('aria-pressed', String(k===mode))); if(mode==='low'){ targetFPS = 24; canvas.style.display='none'; } else if(mode==='high'){ targetFPS = 60; canvas.style.display=''; } else { targetFPS = isMobile ? 30 : 45; canvas.style.display=''; } reset(); }
+    perfBtns.low?.addEventListener('click', ()=> setPerf('low'));
+    perfBtns.auto?.addEventListener('click', ()=> setPerf('auto'));
+    perfBtns.high?.addEventListener('click', ()=> setPerf('high'));
 
-    // Boot
+    document.getElementById('share')?.addEventListener('click', async ()=>{ const data = { title: 'Spiros Grouztidis — Cybersecurity & AI', text: 'Check out my portfolio', url: location.href }; if(navigator.share){ try{ await navigator.share(data); }catch{} } else { try{ await navigator.clipboard.writeText(location.href); toast('Link copied!'); }catch{} } });
+
+    (function(){ const seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']; let i=0; window.addEventListener('keydown',e=>{ const k=e.key; i = (k===seq[i]) ? i+1 : (k===seq[0]?1:0); if(i===seq.length){ i=0; document.documentElement.toggleAttribute('data-ctf'); toast('CTF mode toggled!'); }}); })();
+
     reset(); requestAnimationFrame(step);
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // --- Simple self-tests (visible in console) ---
+    // --- Self-tests ---
     (function selfTests(){
       const tests = [];
       function t(name, fn){ try{ fn(); tests.push({name, ok:true}); }catch(e){ tests.push({name, ok:false, err:e}); } }
-      t('Has recruiter panel', ()=>{ if(!document.getElementById('recruiterPanel')) throw new Error('missing'); });
       t('Has hidden panel', ()=>{ if(!document.getElementById('hiddenPanel')) throw new Error('missing'); });
-      t('Toggle recruiter via function', ()=>{ const before = getComputedStyle(recruiterPanel).display; rBtn.click(); const after = getComputedStyle(recruiterPanel).display; if(before===after) throw new Error('no toggle'); rBtn.click(); });
-      t('Command palette renders', ()=>{ if(!miniList.children.length) throw new Error('no items'); });
+      t('Command palette renders', ()=>{ if(!document.getElementById('miniList').children.length) throw new Error('no items'); });
+      t('Theme buttons exist', ()=>{ if(!document.getElementById('cvLightBtn')||!document.getElementById('cvDarkBtn')) throw new Error('missing'); });
+      t('Overlay present', ()=>{ const ov=getComputedStyle(document.getElementById('overlay')); if(!ov) throw new Error('no overlay'); });
       console.group('%cSelf‑tests','color:#00fff0'); tests.forEach(x=> console[x.ok?'log':'error'](x.ok?'✓':'✗', x.name, x.err||'')); console.groupEnd();
     })();
   </script>
